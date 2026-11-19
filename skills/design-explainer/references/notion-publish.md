@@ -5,12 +5,12 @@
 ## 図を載せる
 
 1. `notion-create-file-upload` を図1枚につき1回呼ぶ（`filename` に PNG の名前）。
-2. 返ってきた `upload_url` に、`upload_headers` の authorization を付けて、ファイルを multipart で POST する。
+2. 返ってきた `upload_url` に、`upload_headers` のヘッダーをすべて付けて、ファイルを multipart で POST する。
    ```bash
    curl -s -X POST "<upload_url>" -H "authorization: Bearer <返ってきた値>" -F "file=@r1-records.png;type=image/png"
    ```
-   アップロードの URL は 10 分ほどで切れる。図が確定してから作る。
-3. 本文に `<image source="file-upload://<file_upload_id>">図の題</image>` を、前後に空行を入れて置く。
+   返ってきたヘッダーが複数あれば、`-H` を増やす。アップロードの URL は短い時間（10 分ほど）で切れる。図が確定してから作る。
+3. アップロードの応答にある `suggested_markdown` を、本文の図を置きたい所に、前後に空行を入れて置く。形は `<image source="file-upload://<file_upload_id>">図の題</image>`。
 
 ## ページを作る・直す
 
